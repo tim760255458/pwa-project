@@ -22,7 +22,19 @@ module.exports = {
             {
                 src: 'package.json'
             }
-        ]
+        ],
+        extendWithWebpackChain(config, {type, env}) {
+            // eslint 检测出错误时，依然继续编译
+            config.plugins.delete('no-emit-on-errors');
+          
+            // 处理 .js 和 .vue 文件
+            config.module.rule('eslint')
+                .test(/\.(js|vue)$/)
+                .use('eslint')
+                    .loader('eslint-loader')
+                    .end()
+                .exclude.add(/node_modules/);
+        }
     },
     router: {
         mode: 'history',
