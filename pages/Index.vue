@@ -15,7 +15,9 @@
                 /pages/ 目录中的所有页面都会自动生成一条路由规则，无需用户再行配置。
             </p>
             <p class="card_footer" slot="footer">
-                <span class="warning">说明：</span>假如 pages 文件夹中有一个名为 detail.vue 的文件，那么页面跳转时可以通过 /detail 访问到它。
+                <span class="warning">说明：</span>
+                <span>假如 pages 文件夹中有一个名为 Detail.vue 的文件，那么页面跳转时可以通过 /detail 访问到它。</span>
+                <button @click="goDetail">去 detail 页</button>
             </p>
         </card>
         <card class="card">
@@ -25,7 +27,8 @@
                 这种情况我们需要用到 Lavas 动态参数功能。
             </p>
             <p class="card_footer" slot="footer">
-                说明：假如 pages 文件夹中有一个名为 detail.vue 的文件，那么页面跳转时可以通过 /detail 访问到它。
+                <span class="warning">说明：</span>
+                <button @click="goDetailById">去 id 为 1 的 detail 页</button>
             </p>
         </card>
     </div>
@@ -52,6 +55,16 @@ export default {
     components: {
         Card,
         Banner
+    },
+    methods: {
+        goDetail () {
+            this.$router.push({
+                path: '/detail'
+            })
+        },
+        goDetailById () {
+            
+        }
     }
 };
 </script>
