@@ -50,7 +50,8 @@
         <card class="card">
             <p class="card_title" slot="title">lavas 中 vuex 使用</p>
             <p class="card_content" slot="content">
-                所有位于 /store 目录的 js 文件都会以 Vuex 模块 (module) 进行加载。因此开发者只需要提供一个完整的 Vuex 模块就可以在 vue 中使用它。下方示例实现在 /store/detail.js
+                所有位于 /store 目录的 js 文件都会以 Vuex 模块 (module) 进行加载。因此开发者只需要提供一个完整的 Vuex 模块就可以在 vue 中使用它。下方示例实现在 /store/detail.js 。
+                午安网的 PWA 项目中采用路由导航完成前获取数据，与 lavas 保持一致。
             </p>
             <p class="card_footer" slot="footer">
                 <span class="warning">说明：</span>
