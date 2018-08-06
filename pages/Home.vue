@@ -1,12 +1,13 @@
 <template>
-    <div class="detail">
-        详情页面
+    <div class="home">
+        <p>HOME PAGE</p>
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'detail',
+    name: 'home',
     data () {
         return {
             

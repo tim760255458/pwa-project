@@ -16,8 +16,11 @@
             </p>
             <p class="card_footer" slot="footer">
                 <span class="warning">说明：</span>
-                <span>假如 pages 文件夹中有一个名为 Detail.vue 的文件，那么页面跳转时可以通过 /detail 访问到它。</span>
-                <button @click="goDetail">去 detail 页</button>
+                <span>
+                    假如 pages 文件夹中有一个名为 Home.vue 的文件，那么页面跳转时可以通过 /home 访问到它。注意文件命名问题，<span class="warning">H</span>ome.vue。
+                    文件首字母大写，文件夹小写。
+                </span>
+                <button @click="goHome">去 home 页</button>
             </p>
         </card>
         <card class="card">
@@ -29,16 +32,52 @@
             <p class="card_footer" slot="footer">
                 <span class="warning">说明：</span>
                 <button @click="goDetailById">去 id 为 1 的 detail 页</button>
+                <span>此时路由地址为 /detail/1 ，目录结构为 pages/detail/_id.vue 。</span>
             </p>
         </card>
+        <card class="card">
+            <p class="card_title" slot="title">嵌套路由</p>
+            <p class="card_content" slot="content">
+                开发者需要在 /pages 目录中新建两个同名的目录和 Vue 文件(但首字母大小写不同，目录小写，文件大写)即可实现。
+            </p>
+            <p class="card_footer" slot="footer">
+                <span class="warning">说明：</span>
+                <button @click="goUser">去 /home/user 页</button>
+                <span>此时路由地址为 /home/user ，目录结构为 pages/home/User.vue 。</span>
+            </p>
+        </card>
+        <banner>关于状态管理</banner>
+        <card class="card">
+            <p class="card_title" slot="title">lavas 中 vuex 使用</p>
+            <p class="card_content" slot="content">
+                所有位于 /store 目录的 js 文件都会以 Vuex 模块 (module) 进行加载。因此开发者只需要提供一个完整的 Vuex 模块就可以在 vue 中使用它。下方示例实现在 /store/detail.js
+            </p>
+            <p class="card_footer" slot="footer">
+                <span class="warning">说明：</span>
+                <button @click="setUserInfo">设置 user 数据</button>
+                <button @click="cancelUserInfo">还原</button>
+                <span>姓名：{{ user.name }}，年龄：{{ user.age }}</span>
+            </p>
+        </card>
+        <banner>关于站点添加至首屏</banner>
+        <card class="card">
+            <p class="card_title" slot="title">站点添加至首屏</p>
+            <p class="card_content" slot="content">
+                PWA 提供了一个 manifest.json 配置文件，可以自定义图标、名称、启动方式等。具体配置项说明见
+                <a href="https://lavas.baidu.com/pwa/engage-retain-users/add-to-home-screen/introduction" target="_blank">manifest.json 简介</a>
+            </p>
+        </card>
+        <p class="footer_line">v1.0</p>
     </div>
 </template>
 
 <script>
 function setState(store) {}
 
+import { mapState, mapMutations } from 'vuex'
 import Card from '../components/common/Card'
 import Banner from '../components/common/Banner'
+import { test } from '../api'
 export default {
     name: 'index',
     metaInfo: {
@@ -52,18 +91,57 @@ export default {
     async asyncData({store, route}) {
         setState(store);
     },
+    data () {
+        return {
+            backData: null
+        }
+    },
     components: {
         Card,
         Banner
     },
+    computed: {
+        ...mapState('detail', ['user'])
+    },
     methods: {
-        goDetail () {
+        ...mapMutations('detail', ['setUser']),
+        goHome () {
             this.$router.push({
-                path: '/detail'
+                path: '/home'
             })
         },
         goDetailById () {
-            
+            this.$router.push({
+                path: '/detail/1'
+            })
+        },
+        goUser () {
+            this.$router.push({
+                path: '/home/user'
+            })
+        },
+        setUserInfo () {
+            this.setUser({
+                name: 'buer',
+                age: 18
+            })
+        },
+        cancelUserInfo () {
+            this.setUser({
+                name: '未设置',
+                age: '未设置'
+            })
+        },
+        getToday () {
+            test({
+                email: '111@qq.com',
+                password: '111'
+            }).then(response => {
+                console.log(response)
+                this.backData = response.data
+            }).catch(error => {
+                console.log(error)
+            })
         }
     }
 };
@@ -107,4 +185,8 @@ export default {
 
 .warning
     color orangered
+
+.footer_line
+    color #dddddd
+    font-size 12px
 </style>
